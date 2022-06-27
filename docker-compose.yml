@@ -4,18 +4,19 @@ services:
   teste-postgres-compose:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "admin"
+      POSTGRES_PASSWORD: "Postgres2019!"
     ports:
       - "15432:5432"
     volumes:
-      - '/tech-repos/dbs:/var/lib/postgresql/data'
+      - /home/renatogroffe/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data 
+    networks:
       - postgres-compose-network
       
   teste-pgadmin-compose:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: "iagosilbernagel@hotmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_DEFAULT_PASSWORD: "admin2022!"
     ports:
       - "16543:80"
     depends_on:
