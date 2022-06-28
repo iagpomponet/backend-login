@@ -1,20 +1,18 @@
-import { PrismaClient } from '@prisma/client'
+import express from 'express';
+import prisma from './config/prisma';
+import userRoutes from './routes';
 
-const prisma = new PrismaClient()
 
 async function main() {
-  // ... you will write your Prisma Client queries here
-  
-  await prisma.user.create({
-    data: {
-      username: "iago",
-      email: "iago@email.com",
-      password: "1234",
-    }
-  })
-  
-  const allUsers = await prisma.user.findMany()
-  console.log(allUsers);
+  const app = express();
+  const port = process.env.SERVER_PORT;
+  console.log('port :>> ', port);
+
+  app.listen(port, () => {
+    console.log(`Server running on port :${port}`);
+  });
+
+  app.use('/users', userRoutes);
 }
 
 main()
