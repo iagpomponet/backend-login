@@ -9,7 +9,6 @@ import userRoutes from './routes/user.routes';
 async function main() {
   const app = express();
   const port = process.env.SERVER_PORT;
-  console.log('port :>> ', port);
 
   app.listen(port, () => {
     console.log(`Server running on port :${port}`);
