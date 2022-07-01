@@ -1,18 +1,79 @@
 import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import prisma from "../config/prisma";
 
-const getUsersController = async (_: express.Request, res: express.Response) => {
-    try {
-        const users = await prisma.user.findMany();
-        return res.status(200).json({ data: users })
+import { Prisma } from "@prisma/client";
+
+const getUsersController = async (
+  _: express.Request,
+  res: express.Response
+) => {
+  try {
+    const users = await prisma.user.findMany();
+    return res.status(200).json({ data: users });
+  } catch (e) {
+    return res.status(500).json({
+      error: e,
+    });
+  }
+};
+
+const createUser = async (req: express.Request, res: express.Response) => {
+  try {
+    const { username, password, email } = req.body;
+
+    if (!username || !password || !email) {
+      return res.status(500).json({
+        error: "Some field is missing on request body.",
+      });
     }
-    catch(e) {
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUserPayload = {
+      username,
+      password: hashedPassword,
+      email,
+    };
+
+    const user = await prisma.user.create({ data: newUserPayload });
+
+    if (!process.env.SECRET) {
+      return res.status(500).json({
+        error: "JWT Secret is missing",
+      });
+    }
+
+    const token = jwt.sign(user, process.env.SECRET, { expiresIn: 300 });
+
+    return res
+      .cookie("backend_login_token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(200)
+      .json({
+        user: user,
+      });
+
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // The .code property can be accessed in a type-safe manner
+      if (error.code === "P2002") {
         return res.status(500).json({
-            error: e
-        })
+          error:
+            "There is a unique constraint violation, a new user cannot be created with this email",
+        });
+      }
     }
+
+    return res.status(500).json({
+      error: error,
+    });
+  }
 };
 
 export default {
-    getUsersController
-}
+  getUsersController,
+  createUser,
+};
