@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import prisma from "../config/prisma";
 
 import { Prisma } from "@prisma/client";
+import { User } from "../modules/users/model/User";
 
 const constants = {
   jwt_cookie: "backend_login_token",
@@ -38,11 +39,13 @@ const createUser = async (req: express.Request, res: express.Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUserPayload = {
+    const newUserPayload = new User();
+    Object.assign(newUserPayload, {
       username,
       password: hashedPassword,
       email,
-    };
+      id: '2'
+    });
 
     const user = await prisma.user.create({ data: newUserPayload });
 
@@ -112,9 +115,8 @@ const login = async (req: express.Request, res: express.Response) => {
     .status(200)
     .cookie(constants.jwt_cookie, token, constants.cookie_config)
     .json({
-      message: "Successfully logged in"
+      message: "Successfully logged in",
     });
-
 };
 
 export default {

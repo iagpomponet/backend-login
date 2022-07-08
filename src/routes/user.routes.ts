@@ -1,13 +1,16 @@
 import express from 'express';
 
-import userController from '../controllers/users';
 import checkAuth from '../middleware/auth';
+import { createUserController } from '../modules/users/useCases/createUser';
+import { getAllUsersController } from '../modules/users/useCases/getAllUsers';
+
+
 
 
 const router = express.Router();
-router.get('/', checkAuth, async (req, res) => userController.getUsersController(req, res));
-router.post('/signup', async (req, res) => userController.createUser(req, res));
-router.post('/login', async (req, res) => userController.login(req, res))
+
+router.get('/',  (req, res) => getAllUsersController.handle(req, res));
+router.post('/signup', (req, res) => createUserController.handle(req, res));
 
 
 export default router;
