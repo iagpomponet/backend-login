@@ -8,10 +8,10 @@ class CreateProductController {
 		const { name, description, price } = req.body;
 		
 		try {
-			const response = await this.createProductUseCase.execute({ name, description, price });
+			await this.createProductUseCase.execute({ name, description, price });
 			
 			return res.status(201).json({
-				data: response
+				message: 'Product created with success!'
 			});
 		}
 		catch(e){
