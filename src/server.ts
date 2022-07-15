@@ -1,8 +1,11 @@
+import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import morgan from 'morgan';
 import userRoutes from './routes/user.routes';
 import productRoutes from './routes/product.routes';
+
+import './shared/container';
 
 const app = express();
 

@@ -2,15 +2,19 @@ import express from 'express';
 import multer from 'multer';
 
 
-import { createProductController } from '../modules/products/model/useCases/createProduct';
-import { importProductsController } from '../modules/products/model/useCases/importProducts';
-import { listProductsController } from '../modules/products/model/useCases/listProducts';
+import { CreateProductController } from '../modules/products/model/useCases/createProduct/CreateProductController';
+import { ImportProductsController } from '../modules/products/model/useCases/importProducts/ImportProductsController';
+import { ListProductsController } from '../modules/products/model/useCases/listProducts/ListProductsController';
+
+const listProductsController = new ListProductsController();
+const importProductsController = new ImportProductsController();
+const createProductController = new CreateProductController();
 
 const upload = multer({ dest: 'tmp/' });
 const router = express.Router();
 
-router.get('/',  (req, res) => listProductsController.handle(req, res));
-router.post('/create', (req, res) => createProductController.handle(req, res));
-router.post('/import', upload.single('products'), (req, res) => importProductsController.handle(req, res));
+router.get('/',  listProductsController.handle);
+router.post('/create', createProductController.handle);
+router.post('/import', upload.single('products'), importProductsController.handle);
 
 export default router;

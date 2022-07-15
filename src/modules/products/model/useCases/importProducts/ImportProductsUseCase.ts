@@ -1,9 +1,13 @@
 import { parse } from 'csv-parse';
 import fs from 'fs';
+import { inject, injectable } from 'tsyringe';
 import { ICreateProduct, IProductRepository } from '../../repositories/IProductRepository';
 
+@injectable()
 class ImportProductsUseCase {
-	constructor(private importProductsRepository: IProductRepository){}
+	constructor(
+		@inject('ProductRepository')
+		private importProductsRepository: IProductRepository){}
 
 	loadCategories(file: Express.Multer.File): Promise<ICreateProduct[]>{
 		return new Promise((resolve, _) => {
@@ -15,7 +19,7 @@ class ImportProductsUseCase {
 
 			parseFile.on('data', (line) => {
 				const [name, description, price] = line;
-				console.log('line :>> ', line);
+
 				categories.push({
 					name,
 					description,
@@ -41,7 +45,6 @@ class ImportProductsUseCase {
 				price
 			});
 		});
-		console.log('categories :>> ', categories);
 
 		return;
 	}

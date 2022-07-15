@@ -1,16 +1,18 @@
 import express from 'express';
 
 import checkAuth from '../middleware/auth';
-import { createUserController } from '../modules/users/useCases/createUser';
-import { getAllUsersController } from '../modules/users/useCases/getAllUsers';
+import { CreateUserController } from '../modules/users/useCases/createUser/CreateUserController';
+import { GetAllUsersController } from '../modules/users/useCases/getAllUsers/GetAllUserController';
 
-
+//controllers 
+const createUserController = new CreateUserController();
+const getAllUsersController = new GetAllUsersController();
 
 
 const router = express.Router();
 
-router.get('/',  (req, res) => getAllUsersController.handle(req, res));
-router.post('/signup', (req, res) => createUserController.handle(req, res));
+router.get('/', getAllUsersController.handle);
+router.post('/signup', createUserController.handle);
 
 
 export default router;

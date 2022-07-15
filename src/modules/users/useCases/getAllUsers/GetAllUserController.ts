@@ -1,13 +1,13 @@
 // controller gets use case
 import express from 'express';
+import { container } from 'tsyringe';
 import { GetAllUsersUseCase } from './GetAllUsersUseCase';
 
 class GetAllUsersController {
-	constructor(private getAllUsersUseCase: GetAllUsersUseCase){}
-
 	async handle(_: express.Request, res: express.Response){
+		const getAllUsersUseCase = container.resolve(GetAllUsersUseCase);
+		const response = await getAllUsersUseCase.execute();
 
-		const response = await this.getAllUsersUseCase.execute();
 
 		return res.status(200).json({
 			data: response

@@ -1,7 +1,11 @@
+import { inject, injectable } from 'tsyringe';
 import { ICreateProduct, IProductRepository } from '../../repositories/IProductRepository';
 
+@injectable()
 class CreateProductUseCase {
-	constructor(private productRepository: IProductRepository){}
+	constructor(
+		@inject('ProductRepository')
+		private productRepository: IProductRepository){}
 
 	async execute({ name, price, description }: ICreateProduct){
 		try {
