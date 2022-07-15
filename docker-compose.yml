@@ -1,15 +1,18 @@
-version: '3'
+version: "3"
 
 services:
   app:
     container_name: app
-    ports: 
+    ports:
       - 8000:8000
     build: .
     env_file:
-    - .env
-    volumes: 
+      - .env
+    volumes:
       - .:/usr/app
+    networks:
+      - postgres-compose-network
+    
 
   teste-postgres-compose:
     image: postgres
@@ -18,10 +21,10 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - /home/renatogroffe/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data 
+      - /PostgreSQL:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
-      
+
   teste-pgadmin-compose:
     image: dpage/pgadmin4
     environment:
@@ -34,6 +37,6 @@ services:
     networks:
       - postgres-compose-network
 
-networks: 
+networks:
   postgres-compose-network:
     driver: bridge

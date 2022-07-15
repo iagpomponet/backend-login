@@ -14,9 +14,9 @@ COPY tsconfig.json .
 # COPY
 COPY . .
 
-RUN npm install
-    \ npx prisma generate --schema ./prisma/schema.prisma
-    \ npx prisma migrate deploy
+RUN npm install \ 
+    && npx prisma generate --schema ./prisma/schema.prisma \
+    && npx prisma migrate deploy
 
 EXPOSE 8000
 

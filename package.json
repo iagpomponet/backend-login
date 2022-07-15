@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "up": "docker-compose up --force-recreate",
     "infra": "docker-compose up",
-    "backend:dev": "npx nodemon ./src/index.ts",
-    "test": "jest"
+    "backend:dev": "npx nodemon ./src/index.ts --legacy-watch",
+    "test": "jest",
+    "cmd": "docker-compose run app sh"
   },
   "keywords": [],
   "author": "",
@@ -42,8 +44,10 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
     "prettier": "^2.7.1",
+    "reflect-metadata": "^0.1.13",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.2",
+    "tsyringe": "^4.7.0",
     "typescript": "^4.7.4",
     "uuid": "^8.3.2"
   }
