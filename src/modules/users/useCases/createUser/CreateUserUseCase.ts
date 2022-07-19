@@ -1,5 +1,7 @@
+/* eslint-disable no-extra-boolean-cast */
 import { inject, injectable } from 'tsyringe';
-import { User } from '../../model/User';
+import { hash } from 'bcrypt';
+
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 interface ICreateUser {
@@ -18,24 +20,18 @@ class CreateUserUseCase {
 		private userRepository: IUserRepository) {}
 
 	async execute({ username, email, password }: ICreateUser) {
+		const hashedPassword = await hash(password, 10);
 		const emailAlreadyTaken = await this.userRepository.findOneByEmail(email);
 
-		// eslint-disable-next-line no-extra-boolean-cast
+
 		if(!!emailAlreadyTaken){
 			throw new Error('E-mail already registered');
 		}
 
-		const user = new User();
-		Object.assign(user, {
-			username, 
-			email, 
-			password
-		});
-
 		await this.userRepository.create({
 			username, 
 			email, 
-			password
+			password: hashedPassword
 		});
 	}
 }

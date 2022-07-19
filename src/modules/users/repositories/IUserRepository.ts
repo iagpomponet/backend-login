@@ -10,5 +10,5 @@ export interface ICreateUser {
 export interface IUserRepository {
     create({ username, email, password }: ICreateUser): Promise<void>;
     list(): Promise<User[]>;
-    findOneByEmail(email: string): Promise<any>;
+    findOneByEmail(email: string): Promise<User | null>;
 }

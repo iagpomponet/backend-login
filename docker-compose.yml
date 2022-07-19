@@ -10,6 +10,7 @@ services:
       - .env
     volumes:
       - .:/usr/app
+      - .:/usr/src/app/node_modules
     networks:
       - postgres-compose-network
     

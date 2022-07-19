@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import express from 'express';
+
 import { container } from 'tsyringe';
 import { CreateUserUseCase } from './CreateUserUseCase';
 
@@ -9,7 +11,7 @@ class CreateUserController {
     
 		try {
 			const createUserUseCase = container.resolve(CreateUserUseCase);
-			await createUserUseCase.execute({ username, email, password } );
+			await createUserUseCase.execute({ username, email, password });
 		}
 		catch(e){
 			return res.status(500).json({
