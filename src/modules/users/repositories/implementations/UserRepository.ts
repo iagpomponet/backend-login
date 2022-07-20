@@ -38,6 +38,15 @@ class UserRepository implements IUserRepository {
 			},
 		});
 	}
+
+	findById(id: string): Promise<User | null> {
+		const userPromise = prisma.user.findUnique({
+			where: {
+				id
+			}}); 
+
+		return userPromise;
+	}
 }
 
 export { UserRepository };

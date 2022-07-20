@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import checkAuth from '../middleware/auth';
 
 
 import { CreateProductController } from '../modules/products/model/useCases/createProduct/CreateProductController';
@@ -13,7 +14,7 @@ const createProductController = new CreateProductController();
 const upload = multer({ dest: 'tmp/' });
 const router = express.Router();
 
-router.get('/',  listProductsController.handle);
+router.get('/', checkAuth, listProductsController.handle);
 router.post('/create', createProductController.handle);
 router.post('/import', upload.single('products'), importProductsController.handle);
 

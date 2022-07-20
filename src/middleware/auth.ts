@@ -1,29 +1,31 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { UserRepository } from '../modules/users/repositories/implementations/UserRepository';
 
-export default function checkAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const { cookies: { backend_login_token }} = req;
+export default function checkAuth(req: Request, res: Response, next: NextFunction) {
+	const authHeader = req.headers.authorization;
     
-    if(!backend_login_token){
-        return res.status(403).json({
-            error: "No auth token found"
-        })
-    }
+	if(!authHeader){
+		throw new Error('No auth token found');
+	}
 
-    const tokenSecret = process.env.SECRET || '';
+	const tokenSecret = process.env.SECRET!;
+	const [, token] = authHeader.split(' ');
     
-    try {
-        const isTokenValid = jwt.verify(backend_login_token, tokenSecret);
+	try {
+		const { sub: userId } = jwt.verify(token, tokenSecret);
+		const userRepository = new UserRepository();
+		const user = userRepository.findById((userId as string));
+
+		if(!user){
+			throw new Error('User does not exist');
+		}
         
-        if(isTokenValid){
-            next();
-        }
-    }
-    catch(e){
-        const jwtError = (e as any)?.message;
-        
-        return res.status(403).json({
-            error: jwtError ? jwtError : e
-        });
-    }
+		if(userId){
+			next();
+		}
+	}
+	catch(e){
+		throw new Error((e as Error).message);
+	}
 }
