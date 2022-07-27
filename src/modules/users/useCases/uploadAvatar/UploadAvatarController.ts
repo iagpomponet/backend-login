@@ -20,7 +20,7 @@ class UploadAvatarController {
 
 		uploadAvatarUseCase.execute({
 			user_id: id,
-			avatar_file: file!.path
+			avatar_file: file!.filename
 		});
 
 		res.status(200).send();
