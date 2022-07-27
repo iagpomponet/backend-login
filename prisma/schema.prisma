@@ -13,6 +13,7 @@ model user {
   username String
   email    String @unique
   password String
+  avatar   String
 }
 
 model product {

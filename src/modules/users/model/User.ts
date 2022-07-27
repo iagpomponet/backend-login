@@ -5,7 +5,7 @@ export class User {
 	password!: string;
 	email!: string;
 	id!: string;
-    
+	avatar!: string;
     
     
 	constructor(){

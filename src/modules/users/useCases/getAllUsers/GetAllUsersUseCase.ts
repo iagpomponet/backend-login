@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../errors/AppError';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 @injectable()
@@ -11,8 +12,8 @@ class GetAllUsersUseCase {
 			const dbResponse = await this.userRepository.list();
 			console.log('dbResponse :>> ', dbResponse);
 			return dbResponse;
-		} catch (error) {
-			throw new Error((error as any)?.message);
+		} catch {
+			throw new AppError('Failed to fetch database');
 		}
 	}
 }

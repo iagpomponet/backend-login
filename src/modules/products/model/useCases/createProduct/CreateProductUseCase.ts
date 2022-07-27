@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../../errors/AppError';
 import { ICreateProduct, IProductRepository } from '../../repositories/IProductRepository';
 
 @injectable()
@@ -15,8 +16,8 @@ class CreateProductUseCase {
 				description
 			});
 		}
-		catch(e){
-			throw new Error((e as Error)?.message ?? 'Something went wrong');
+		catch{
+			throw new AppError('Something went wrong', 400);
 		}
 	}
 }

@@ -28,10 +28,8 @@ class ImportProductsUseCase {
 			})
 				.on('end', () => {
 					resolve(categories);
-				})
-				.on('error', (error) => {
-					throw new Error(error.message);
 				});
+				
 			
 		});
 	}

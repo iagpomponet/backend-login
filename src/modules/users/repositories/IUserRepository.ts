@@ -5,6 +5,10 @@ export interface ICreateUser {
     password: string;
     email: string;
 }
+
+export interface IUpdateValue {
+    [key: string]: unknown
+}
   
 
 export interface IUserRepository {
@@ -12,4 +16,5 @@ export interface IUserRepository {
     list(): Promise<User[]>;
     findOneByEmail(email: string): Promise<User | null>;
     findById(id: string): Promise<User | null>
+    update(id: string, value: IUpdateValue): Promise<User | null>
 }

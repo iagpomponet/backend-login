@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { hash } from 'bcrypt';
 
 import { IUserRepository } from '../../repositories/IUserRepository';
+import { AppError } from '../../../../errors/AppError';
 
 interface ICreateUser {
   username: string;
@@ -25,7 +26,7 @@ class CreateUserUseCase {
 
 
 		if(!!emailAlreadyTaken){
-			throw new Error('E-mail already registered');
+			throw new AppError('E-mail already registered');
 		}
 
 		await this.userRepository.create({

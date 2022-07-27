@@ -1,9 +1,17 @@
 import prisma from '../../../../config/prisma';
 import { User } from '../../model/User';
-import { ICreateUser, IUserRepository } from './../IUserRepository';
+import { ICreateUser, IUpdateValue, IUserRepository } from './../IUserRepository';
 
 
 class UserRepository implements IUserRepository {
+	update(id: string, value: IUpdateValue): Promise<User | null> {
+		return prisma.user.update({
+			where: {
+				id
+			},
+			data: value
+		});
+	}
 	public static INSTANCE: UserRepository;
 
 	public static getInstace(){
@@ -22,6 +30,7 @@ class UserRepository implements IUserRepository {
 			username,
 			password,
 			email,
+			avatar: ''
 		});
 
 		await prisma.user.create({ data: user });
