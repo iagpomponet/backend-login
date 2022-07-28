@@ -1,5 +1,5 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/prisma';
 
@@ -81,7 +81,7 @@ const createUser = async (req: express.Request, res: express.Response) => {
 };
 
 const login = async (req: express.Request, res: express.Response) => {
-	const { email, password } = req?.body;
+	const { email, password } = req?.body || null;
 
 	if (!email || !password) {
 		return res.status(500).json({

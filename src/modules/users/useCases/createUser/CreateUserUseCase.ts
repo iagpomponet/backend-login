@@ -1,6 +1,6 @@
 /* eslint-disable no-extra-boolean-cast */
 import { inject, injectable } from 'tsyringe';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 
 import { IUserRepository } from '../../repositories/IUserRepository';
 import { AppError } from '../../../../errors/AppError';

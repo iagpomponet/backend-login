@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { compare } from 'bcrypt';
+import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import { IUserRepository } from '../../repositories/IUserRepository';
