@@ -17,12 +17,12 @@ class AuthenticateUserUseCase {
         private userRepository: IUserRepository){}
 
 	async execute({ email, password }: IRequest){
-		const errorMessage = 'E-mail or password is invalid';
 		const user = await this.userRepository.findOneByEmail(email);
 
 		if(!user){
 			throw new AppError('E-mail or password is invalid', 401);
 		}
+
 
 		const isPasswordCorrect = await compare(password, user.password);
 

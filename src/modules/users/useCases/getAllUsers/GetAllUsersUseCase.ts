@@ -10,7 +10,6 @@ class GetAllUsersUseCase {
 	async execute(){
 		try {
 			const dbResponse = await this.userRepository.list();
-			console.log('dbResponse :>> ', dbResponse);
 			return dbResponse;
 		} catch {
 			throw new AppError('Failed to fetch database');

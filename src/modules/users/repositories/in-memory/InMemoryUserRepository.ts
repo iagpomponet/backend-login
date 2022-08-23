@@ -52,7 +52,7 @@ class InMemoryUserRepository implements IUserRepository{
 	findOneByEmail(email: string): Promise<any> {
 		const results = this.db.filter(doc => doc.email === email);
 		return new Promise((res, _) => {
-			return res(results.length ? results : null);
+			return res(results.length ? results[0] : null);
 		});
 	}
 

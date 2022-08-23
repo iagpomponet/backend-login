@@ -21,7 +21,7 @@ describe('Create User', () => {
 
 		await createUserUseCase.execute(user);
 
-		const [myUser] = await userRepository.findOneByEmail(user?.email);
+		const myUser = await userRepository.findOneByEmail(user?.email);
 
 		expect(myUser).not.toBeNull();
 		expect(myUser?.email).toBe(user.email);
